@@ -78,6 +78,7 @@ void start_prompt(void);        // Start game or exit
 void start_room(void);          // Press enter for start room
 void check_for_end(void);       // Test for finsh or death
 void ack_action(void);          // Press enter after room action seen
+void check_for_wall(void);      // 
 void room_loop(void);           // Test for cardinal direction movement
 void game_end(void);            // Test for win or death
 void cleanup_restart(void);     // Clean-up then reload the page
@@ -358,25 +359,15 @@ void check_for_end(void)
     // Game loop that runs until the player wins or dies
     if (finished == false && player.getHealth() > 0)
     {
-        wall = true;
-        current->printImg();
-
-        if (wall == true && player.getHealth() > 0)
+        if (wall == false)
         {
-            if (hitWall == false)
-            {
-                current->action(player);
+            current->printImg();
 
-                // Inline JS - Set input to a garbage value
-                EM_ASM({
-                    input = 42;
-                });
-
-                // Move to player input loop                
-                emscripten_cancel_main_loop();
-                emscripten_set_main_loop(ack_action, 10, 1);
-            }
         }
+        wall = true;
+
+        emscripten_cancel_main_loop();
+        emscripten_set_main_loop(check_for_wall, 10, 1);
     }
 
     // The player has reached the end or died
@@ -385,7 +376,66 @@ void check_for_end(void)
         emscripten_cancel_main_loop();
         emscripten_set_main_loop(game_end, 10, 1);
     }
-    
+}
+
+
+// 
+
+void check_for_wall(void)
+{
+    // Inline JS - Set input to a garbage value
+    EM_ASM({
+        input = 42;
+    });
+
+    if (wall == true && player.getHealth() > 0)
+    {
+        if (hitWall == false)
+        {
+            current->action(player);
+
+            // Inline JS - Set input to a garbage value
+            EM_ASM({
+                input = 42;
+            });
+
+            // Move to player input loop                
+            emscripten_cancel_main_loop();
+            emscripten_set_main_loop(ack_action, 10, 1);
+        }
+        else
+        {
+            cout << endl << endl;
+
+            if (player.getHealth() < 1)
+            {
+                dinoDeath = true;
+            }
+
+            if (dinoDeath == false)
+            {
+                player.printHealth();
+                player.printItems();
+                current->printMap();
+
+                // Print the user menu
+                cout << "Press 1 to move UP" << endl;
+                cout << "Press 2 to move RIGHT" << endl;
+                cout << "Press 3 to move DOWN" << endl;
+                cout << "Press 4 to move LEFT" << endl;
+                cout << endl << endl;
+            }
+
+            emscripten_cancel_main_loop();
+            emscripten_set_main_loop(room_loop, 10, 1);
+        }
+        
+    }
+    else
+    {
+        emscripten_cancel_main_loop();
+        emscripten_set_main_loop(check_for_end, 10, 1);
+    }
 }
 
 
@@ -534,6 +584,13 @@ void room_loop(void)
         if (player.hasKey() == true)
         {
             thirteen->setDirections(NULL, fourteen, nine, twelve);
+        }
+
+        // Check for hitting a wall
+        if (wall == true)
+        {
+            emscripten_cancel_main_loop();
+            emscripten_set_main_loop(check_for_end, 10, 1);
         }
 
         // Return to check for end with player in the new room
