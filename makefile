@@ -1,5 +1,5 @@
 CC=emcc
-LVL="-O0"
+LVL="-O3"
 
 maze: mazeMain.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o
 	$(CC) -std=c++11 mazeMain.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o -s WASM=1 --shell-file html_template/wasm_game_template.html $(LVL) -o ./build/wasm_maze.html
