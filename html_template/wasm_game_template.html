@@ -8,6 +8,30 @@
         <title>C++ WASM Maze Game</title>
 
         <style>
+            body {
+                margin: 0;
+                background-color: rgba(219, 223, 220, 0.514);
+            }
+
+            #gh-bar {
+                background-color: black;
+                text-align: center;
+                font-family: verdana;
+                font-size: 20px;
+                padding-top: 18px;
+                width: 100%;
+                height: 40px;
+                margin-bottom: 60px;
+                -webkit-box-shadow: 0px 3px 5px rgba(77, 75, 75, 0.719);
+                -moz-box-shadow:    0px 3px 5px rgba(77, 75, 75, 0.719);
+                box-shadow:         0px 3px 5px rgba(77, 75, 75, 0.719);
+            }
+
+            #gh-link {
+                text-decoration: none;
+                color: white;
+            }
+
             .emscripten {
                 display: block;
                 padding-right: 0;
@@ -18,7 +42,8 @@
             textarea.emscripten { 
                 resize: none;
                 border: none;
-                margin: 60px auto 0px auto;
+                border-radius: 4px 4px 0 0;
+                margin: 50px auto 0px auto;
                 font-size: 17px;
                 padding: 20px 20px 0px 30px;
                 width: 800px;
@@ -40,6 +65,7 @@
                 position: absolute;
                 border: none;
                 resize: none;
+                border-radius: 0 0 4px 4px;
                 padding: 0px 0px 15px 50px;
                 margin-top: -5px;
                 margin-left: -25px;
@@ -66,10 +92,23 @@
 
             div.emscripten { text-align: center; }
             div.emscripten_border { border: 1px solid black; }
+            
         </style>
     </head>
 
     <body>
+        <!-- GitHub source code link -->
+        <div id='gh-bar'>
+            <a
+                id='gh-link'
+                href='https://github.com/adam4321/Maze_game_WASM'
+                target='_blank'
+                rel='noopener noreferrer'
+            >
+                <div>Open GitHub repo in a new tab</div>
+            </a>
+        </div>
+
         <!-- The game's output is displayed in this text area -->
         <textarea class="emscripten" id="output" rows="8" readonly></textarea>
 
