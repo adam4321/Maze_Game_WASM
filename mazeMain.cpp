@@ -21,7 +21,6 @@
 ***********************************************************************/
 
 #include <iostream>
-#include <string>
 #include <stdlib.h>
 #include <emscripten.h>
 
@@ -42,19 +41,22 @@ using std::cout;
 using std::endl;
 
 
-// GLOBAL VARIABLES -----------------------------------------------------------
+// GLOBAL CONSTANTS -----------------------------------------------------------
 
 int const LOOP_SPEED = 10;
 bool const INF_LOOP = true;
-int gameMenu = 0;
+
+
+// GLOBAL VARIABLES -----------------------------------------------------------
+
+int menu_input = 0;
 Space *current;
 Character player;
 bool finished = false;
 bool key = false;
 bool wall = true;
-bool hitWall = false;
-bool dinoDeath = false;
-int roomNum = 1;
+bool hit_wall = false;
+bool dino_death = false;
 
 // Create room instances
 Space *one = new Start();
@@ -79,7 +81,7 @@ void start_prompt(void);        // Start game or exit
 void start_room(void);          // Press enter for start room
 void check_for_end(void);       // Test for finsh or death
 void ack_action(void);          // Press enter after room action seen
-void check_for_wall(void);      // 
+void check_for_wall(void);      // Test for bad direction choice
 void room_loop(void);           // Test for cardinal direction movement
 void game_end(void);            // Test for win or death
 void cleanup_restart(void);     // Clean-up then reload the page
@@ -391,7 +393,7 @@ void check_for_wall(void)
 
     if (wall == true && player.getHealth() > 0)
     {
-        if (hitWall == false)
+        if (hit_wall == false)
         {
             current->action(player);
 
@@ -410,13 +412,13 @@ void check_for_wall(void)
 
             if (player.getHealth() < 1)
             {
-                dinoDeath = true;
+                dino_death = true;
 
                 emscripten_cancel_main_loop();
                 emscripten_set_main_loop(game_end, LOOP_SPEED, INF_LOOP);
             }
 
-            if (dinoDeath == false)
+            if (dino_death == false)
             {
                 player.printHealth();
                 player.printItems();
@@ -462,13 +464,13 @@ void ack_action(void)
 
         if (player.getHealth() < 1)
         {
-            dinoDeath = true;
+            dino_death = true;
 
             emscripten_cancel_main_loop();
             emscripten_set_main_loop(game_end, LOOP_SPEED, INF_LOOP);
         }
 
-        if (dinoDeath == false)
+        if (dino_death == false)
         {
             player.printHealth();
             player.printItems();
@@ -492,19 +494,19 @@ void ack_action(void)
 
 void room_loop(void)
 {
-    gameMenu = 0;
+    menu_input = 0;
 
     // Inline JS - Get the value entered into the faux CLI
-    gameMenu = EM_ASM_INT({
+    menu_input = EM_ASM_INT({
         return input;
-    }, gameMenu);
+    }, menu_input);
 
 
     // Input validation and then actions based on the selection
-    if (gameMenu == 1 || gameMenu == 2 || gameMenu == 3 ||  gameMenu == 4)
+    if (menu_input == 1 || menu_input == 2 || menu_input == 3 ||  menu_input == 4)
     {
         // Check if the move is a wall or else move the player
-        if (gameMenu == 1)
+        if (menu_input == 1)
         {
             if (current->getUp() == NULL)
             {
@@ -512,12 +514,12 @@ void room_loop(void)
                 cout << "Sorry that is a wall..." << endl;
                 cout << "Try again.";
                 cout << endl << endl << endl;
-                hitWall = true;
+                hit_wall = true;
             }
             else
             {
                 wall = false;
-                hitWall = false;
+                hit_wall = false;
                 current = current->getUp();
             }
 
@@ -525,7 +527,7 @@ void room_loop(void)
             player.setHealth(player.getHealth() - 1);
         }
 
-        else if (gameMenu == 2)
+        else if (menu_input == 2)
         {
             if (current->getRight() == NULL)
             {
@@ -533,12 +535,12 @@ void room_loop(void)
                 cout << "Sorry that is a wall..." << endl;
                 cout << "Try again.";
                 cout << endl << endl << endl;
-                hitWall = true;
+                hit_wall = true;
             }
             else
             {
                 wall = false;
-                hitWall = false;
+                hit_wall = false;
                 current = current->getRight();
             }
 
@@ -546,7 +548,7 @@ void room_loop(void)
             player.setHealth(player.getHealth() - 1);
         }
 
-        else if (gameMenu == 3)
+        else if (menu_input == 3)
         {
             if (current->getDown() == NULL)
             {
@@ -554,12 +556,12 @@ void room_loop(void)
                 cout << "Sorry that is a wall..." << endl;
                 cout << "Try again.";
                 cout << endl << endl << endl;
-                hitWall = true;
+                hit_wall = true;
             }
             else
             {
                 wall = false;
-                hitWall = false;
+                hit_wall = false;
                 current = current->getDown();
             }
 
@@ -567,7 +569,7 @@ void room_loop(void)
             player.setHealth(player.getHealth() - 1);
         }
 
-        else if (gameMenu == 4)
+        else if (menu_input == 4)
         {
             if (current->getLeft() == NULL)
             {
@@ -575,12 +577,12 @@ void room_loop(void)
                 cout << "Sorry that is a wall..." << endl;
                 cout << "Try again.";
                 cout << endl << endl << endl;
-                hitWall = true;
+                hit_wall = true;
             }
             else
             {
                 wall = false;
-                hitWall = false;
+                hit_wall = false;
                 current = current->getLeft();
             }
 
@@ -629,7 +631,7 @@ void game_end(void)
     
     else
     {
-        if (dinoDeath == false)
+        if (dino_death == false)
         {
 
             /*********************************************************************
