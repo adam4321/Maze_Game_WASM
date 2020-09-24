@@ -43,7 +43,7 @@ using std::endl;
 
 // GLOBAL CONSTANTS -----------------------------------------------------------
 
-int const LOOP_SPEED = 10;
+int const LOOP_SPEED = 60;
 bool const INF_LOOP = true;
 
 
@@ -306,9 +306,10 @@ void start_prompt(void) {
 
     // Select 1 to start
     if (start_bool == 1) {
+        cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
         cout << ".........................................................................." << endl;
         cout << "**************************************************************************";
-        cout << endl << endl;
+        cout << endl << endl << endl << endl;
         cout << "I'm afraid that you are a rat!!!" << endl;
         cout << "You have been dropped into a room in a maze!";
         cout << endl << endl << endl;
@@ -317,7 +318,7 @@ void start_prompt(void) {
         cout << endl << endl;
         cout << "You loose a piece of cheese for each move" << endl;
         cout << "and you need to find a key to escape...";
-        cout << endl << endl << endl;
+        cout << endl << endl << endl << endl << endl << endl;
 
 
         cout << "Press enter to Begin";
@@ -511,9 +512,9 @@ void room_loop(void)
             if (current->getUp() == NULL)
             {
                 cout << endl << endl;
-                cout << "Sorry that is a wall..." << endl;
-                cout << "Try again.";
-                cout << endl << endl << endl;
+                cout << "Sorry that is a wall........" << endl << endl;
+                cout << "Try again!";
+                cout << endl << endl;
                 hit_wall = true;
             }
             else
@@ -532,9 +533,9 @@ void room_loop(void)
             if (current->getRight() == NULL)
             {
                 cout << endl << endl;
-                cout << "Sorry that is a wall..." << endl;
-                cout << "Try again.";
-                cout << endl << endl << endl;
+                cout << "Sorry that is a wall........" << endl << endl;
+                cout << "Try again!";
+                cout << endl << endl;
                 hit_wall = true;
             }
             else
@@ -553,9 +554,9 @@ void room_loop(void)
             if (current->getDown() == NULL)
             {
                 cout << endl << endl;
-                cout << "Sorry that is a wall..." << endl;
-                cout << "Try again.";
-                cout << endl << endl << endl;
+                cout << "Sorry that is a wall........" << endl << endl;
+                cout << "Try again!";
+                cout << endl << endl;
                 hit_wall = true;
             }
             else
@@ -574,9 +575,9 @@ void room_loop(void)
             if (current->getLeft() == NULL)
             {
                 cout << endl << endl;
-                cout << "Sorry that is a wall..." << endl;
-                cout << "Try again.";
-                cout << endl << endl << endl;
+                cout << "Sorry that is a wall........" << endl << endl;
+                cout << "Try again!";
+                cout << endl << endl;
                 hit_wall = true;
             }
             else
