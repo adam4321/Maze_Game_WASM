@@ -379,7 +379,7 @@ void check_for_end(void)
 }
 
 
-// 
+// TEST FOR HITTING WALL ------------------------------------------------------
 
 void check_for_wall(void)
 {
@@ -410,6 +410,9 @@ void check_for_wall(void)
             if (player.getHealth() < 1)
             {
                 dinoDeath = true;
+
+                emscripten_cancel_main_loop();
+                emscripten_set_main_loop(game_end, 10, 1);
             }
 
             if (dinoDeath == false)
@@ -459,6 +462,9 @@ void ack_action(void)
         if (player.getHealth() < 1)
         {
             dinoDeath = true;
+
+            emscripten_cancel_main_loop();
+            emscripten_set_main_loop(game_end, 10, 1);
         }
 
         if (dinoDeath == false)
