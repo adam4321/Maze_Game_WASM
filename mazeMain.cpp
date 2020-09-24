@@ -669,6 +669,7 @@ void game_end(void)
 )";
 
         }
+        cout << endl << endl;
 
         // Call the cleanup function
         emscripten_cancel_main_loop();
