@@ -44,7 +44,8 @@ using std::endl;
 
 // GLOBAL VARIABLES -----------------------------------------------------------
 
-bool onlyNumbers = false;
+int const LOOP_SPEED = 10;
+bool const INF_LOOP = true;
 int gameMenu = 0;
 Space *current;
 Character player;
@@ -254,7 +255,7 @@ int main(void)
     /* ------------------------------------------------------------------------
     * Once control is passed to emscripten infinite loop, main can't be reached
     * ---------------------------------------------------------------------- */
-    emscripten_set_main_loop(start_prompt, 10, 1);
+    emscripten_set_main_loop(start_prompt, LOOP_SPEED, INF_LOOP);
 }
 
 
@@ -321,7 +322,7 @@ void start_prompt(void) {
         cout << endl << endl;
 
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(start_room, 10, 1);
+        emscripten_set_main_loop(start_room, LOOP_SPEED, INF_LOOP);
     }
 }
 
@@ -347,7 +348,7 @@ void start_room(void)
         current = one;
 
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(check_for_end, 10, 1);
+        emscripten_set_main_loop(check_for_end, LOOP_SPEED, INF_LOOP);
     }
 }
 
@@ -367,14 +368,14 @@ void check_for_end(void)
         wall = true;
 
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(check_for_wall, 10, 1);
+        emscripten_set_main_loop(check_for_wall, LOOP_SPEED, INF_LOOP);
     }
 
     // The player has reached the end or died
     else
     {
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(game_end, 10, 1);
+        emscripten_set_main_loop(game_end, LOOP_SPEED, INF_LOOP);
     }
 }
 
@@ -401,7 +402,7 @@ void check_for_wall(void)
 
             // Move to player input loop                
             emscripten_cancel_main_loop();
-            emscripten_set_main_loop(ack_action, 10, 1);
+            emscripten_set_main_loop(ack_action, LOOP_SPEED, INF_LOOP);
         }
         else
         {
@@ -412,7 +413,7 @@ void check_for_wall(void)
                 dinoDeath = true;
 
                 emscripten_cancel_main_loop();
-                emscripten_set_main_loop(game_end, 10, 1);
+                emscripten_set_main_loop(game_end, LOOP_SPEED, INF_LOOP);
             }
 
             if (dinoDeath == false)
@@ -430,14 +431,14 @@ void check_for_wall(void)
             }
 
             emscripten_cancel_main_loop();
-            emscripten_set_main_loop(room_loop, 10, 1);
+            emscripten_set_main_loop(room_loop, LOOP_SPEED, INF_LOOP);
         }
         
     }
     else
     {
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(check_for_end, 10, 1);
+        emscripten_set_main_loop(check_for_end, LOOP_SPEED, INF_LOOP);
     }
 }
 
@@ -464,7 +465,7 @@ void ack_action(void)
             dinoDeath = true;
 
             emscripten_cancel_main_loop();
-            emscripten_set_main_loop(game_end, 10, 1);
+            emscripten_set_main_loop(game_end, LOOP_SPEED, INF_LOOP);
         }
 
         if (dinoDeath == false)
@@ -482,7 +483,7 @@ void ack_action(void)
         }
 
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(room_loop, 10, 1);
+        emscripten_set_main_loop(room_loop, LOOP_SPEED, INF_LOOP);
     }
 }
 
@@ -596,12 +597,12 @@ void room_loop(void)
         if (wall == true)
         {
             emscripten_cancel_main_loop();
-            emscripten_set_main_loop(check_for_end, 10, 1);
+            emscripten_set_main_loop(check_for_end, LOOP_SPEED, INF_LOOP);
         }
 
         // Return to check for end with player in the new room
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(check_for_end, 10, 1);
+        emscripten_set_main_loop(check_for_end, LOOP_SPEED, INF_LOOP);
     }
 }
 
@@ -623,7 +624,7 @@ void game_end(void)
 
         // Call the cleanup function
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(cleanup_restart, 10, 1);
+        emscripten_set_main_loop(cleanup_restart, LOOP_SPEED, INF_LOOP);
     }
     
     else
@@ -669,7 +670,7 @@ void game_end(void)
 
         // Call the cleanup function
         emscripten_cancel_main_loop();
-        emscripten_set_main_loop(cleanup_restart, 10, 1);
+        emscripten_set_main_loop(cleanup_restart, LOOP_SPEED, INF_LOOP);
     }
 }
 
