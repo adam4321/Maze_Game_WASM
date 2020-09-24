@@ -15,6 +15,7 @@ class Key : public Space
 {
 public:
     Key();
+    ~Key() {}
     void printImg() override;
     void action(Character &player) override;
 };

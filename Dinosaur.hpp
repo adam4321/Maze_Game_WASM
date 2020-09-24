@@ -14,7 +14,8 @@
 class Dinosaur : public Space
 {
 public:
-    Dinosaur() {};
+    Dinosaur() {}
+    ~Dinosaur() {}
     void printImg() override;
     void action(Character &player) override;
 };

@@ -14,7 +14,8 @@
 class Cheese : public Space
 {
 public:
-    Cheese() {};
+    Cheese() {}
+    ~Cheese() {}
     void printImg() override;
     void action(Character &player) override;
 };

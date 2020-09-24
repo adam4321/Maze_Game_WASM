@@ -17,6 +17,7 @@ private:
     int visits = 0;
 public:
     Start();
+    ~Start() {}
     void printImg() override;
     void action(Character &player) override;
 };

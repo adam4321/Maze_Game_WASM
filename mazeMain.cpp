@@ -54,7 +54,7 @@ Space *current;
 Character player;
 bool finished = false;
 bool key = false;
-bool wall = true;
+bool wall = false;
 bool hit_wall = false;
 bool dino_death = false;
 
@@ -278,25 +278,26 @@ void start_prompt(void) {
         cout << "Maze Game Quitting  --  Goodbye!";
         cout << endl << endl;
 
-        // // Free the heap memory
-        // delete one;
-        // delete two;
-        // delete three;
-        // delete four;
-        // delete five;
-        // delete six;
-        // delete seven;
-        // delete eight;
-        // delete nine;
-        // delete ten;
-        // delete eleven;
-        // delete twelve;
-        // delete thirteen;
-        // delete fourteen;
+        // Free the heap memory
+        delete one;
+        delete two;
+        delete three;
+        delete four;
+        delete five;
+        delete six;
+        delete seven;
+        delete eight;
+        delete nine;
+        delete ten;
+        delete eleven;
+        delete twelve;
+        delete thirteen;
+        delete fourteen;
 
+        // End the loop
         emscripten_cancel_main_loop();
 
-        // Inline JS - Exit out to previous window
+        // Inline JS - Exit out to the previous window
         EM_ASM({
             setTimeout(() => {
                 window.history.back();
@@ -306,7 +307,7 @@ void start_prompt(void) {
 
     // Select 1 to start
     if (start_bool == 1) {
-        cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
+        cout << endl << endl;
         cout << ".........................................................................." << endl;
         cout << "**************************************************************************";
         cout << endl << endl << endl << endl;
@@ -318,12 +319,13 @@ void start_prompt(void) {
         cout << endl << endl;
         cout << "You loose a piece of cheese for each move" << endl;
         cout << "and you need to find a key to escape...";
-        cout << endl << endl << endl << endl << endl << endl;
+        cout << endl << endl << endl << endl << endl;
 
 
         cout << "Press enter to Begin";
         cout << endl << endl;
 
+        // Move to the starting room
         emscripten_cancel_main_loop();
         emscripten_set_main_loop(start_room, LOOP_SPEED, INF_LOOP);
     }
@@ -347,9 +349,8 @@ void start_room(void)
     if (start_bool == 5) {
         cout << endl << endl;
 
-        // Set the current room to one to start the game
+        // Set the current room to one and start the game
         current = one;
-
         emscripten_cancel_main_loop();
         emscripten_set_main_loop(check_for_end, LOOP_SPEED, INF_LOOP);
     }
@@ -366,10 +367,10 @@ void check_for_end(void)
         if (wall == false)
         {
             current->printImg();
-
         }
-        wall = true;
 
+        // Flip wall flag and check for wall hit
+        wall = true;
         emscripten_cancel_main_loop();
         emscripten_set_main_loop(check_for_wall, LOOP_SPEED, INF_LOOP);
     }
@@ -411,6 +412,7 @@ void check_for_wall(void)
         {
             cout << endl << endl;
 
+            // The player is killed by dinosaur, then show dino death scene
             if (player.getHealth() < 1)
             {
                 dino_death = true;
@@ -696,21 +698,21 @@ void cleanup_restart(void)
     {
         emscripten_cancel_main_loop();
 
-        // // Free the heap memory
-        // delete one;
-        // delete two;
-        // delete three;
-        // delete four;
-        // delete five;
-        // delete six;
-        // delete seven;
-        // delete eight;
-        // delete nine;
-        // delete ten;
-        // delete eleven;
-        // delete twelve;
-        // delete thirteen;
-        // delete fourteen;
+        // Free the heap memory
+        delete one;
+        delete two;
+        delete three;
+        delete four;
+        delete five;
+        delete six;
+        delete seven;
+        delete eight;
+        delete nine;
+        delete ten;
+        delete eleven;
+        delete twelve;
+        delete thirteen;
+        delete fourteen;
 
         // Inline JS - Reload the page using JS
         EM_ASM({

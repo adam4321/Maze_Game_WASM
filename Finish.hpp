@@ -15,6 +15,7 @@ class Finish : public Space
 {
 public:
     Finish();
+    ~Finish() {}
     void printImg() override;
     void action(Character &player) override {};
 };

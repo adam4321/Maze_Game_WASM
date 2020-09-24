@@ -28,7 +28,7 @@ void Space::setDirections(Space *U, Space *R, Space *D, Space *L)
     left = L;
 }
 
-Space * Space::getUp()
+Space *Space::getUp()
 {
     return up;
 }

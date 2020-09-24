@@ -30,7 +30,8 @@ protected:
     bool stick = false;
     string map;
 public:
-    Space() {};
+    Space() {}
+    virtual ~Space() {}
     virtual void setDirections(Space *U, Space *L, Space *R, Space *D);
     virtual Space *getUp();
     virtual Space *getRight();

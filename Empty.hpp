@@ -14,7 +14,8 @@
 class Empty : public Space
 {
 public:
-    Empty() {};
+    Empty() {}
+    ~Empty() {}
     void printImg() override;
     void action(Character &player) override;
 };

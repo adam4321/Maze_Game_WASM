@@ -35,4 +35,4 @@ Finish.o: Finish.cpp Finish.hpp
 	$(CC) -std=c++11 -c Finish.cpp
 
 clean:
-	rm *.o maze
+	rm *.o wasm_maze.html wasm_maze.js wasm_maze.wasm
