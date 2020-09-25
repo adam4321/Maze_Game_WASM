@@ -17,7 +17,7 @@ BUILD = build
 SRCDIR = src
 IDIR = include
 ODIR = src/obj
-HTML_TARGET = build/wasm_maze.html
+HTML_TARGET = build/index.html
 TARGETS = $(HTML_TARGET) build/wasm_maze.js build/wasm_maze.wasm
 
 # Header Files
