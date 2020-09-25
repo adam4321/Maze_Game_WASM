@@ -4,51 +4,38 @@
 #				 Web Assembly using emscripten
 ###############################################################################
 
+# Settings
 CXX = emcc
 OPTIMIZATION = -O3
-CXXFLAGS = $(OPTIMIZATION) -std=c++11 -Wall -Wextra
+CXXFLAGS = $(OPTIMIZATION) -std=c++11
 WASM_FLAGS = -s WASM=1
 HTML_TEMPLATE = --shell-file html_template/wasm_game_template.html
 
-HTML_TARGET = ./build/wasm_maze.html
+# Directories
+DIRS = -I $(IDIR) -I $(SRCDIR) -I $(ODIR)
+BUILD = build
+SRCDIR = src
+IDIR = include
+ODIR = src/obj
+HTML_TARGET = build/wasm_maze.html
 TARGETS = $(HTML_TARGET) build/wasm_maze.js build/wasm_maze.wasm
-SRC = src
-INCLUDE = include
-O_DIR = src/obj
 
-maze: Maze_Main.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o
-	$(CXX) $(CXXFLAGS) $(WASM_FLAGS) Maze_Main.o Space.o Empty.o Character.o Start.o Dinosaur.o \
-	Key.o Cheese.o Door.o Finish.o $(HTML_TEMPLATE) -o $(HTML_TARGET)
+# Header Files
+_DEPS = Character.hpp Space.hpp Start.hpp Empty.hpp Dinosaur.hpp Key.hpp Cheese.hpp Door.hpp Finish.hpp
+DEPS = $(patsubst %, $(IDIR)/%, $(_DEPS))
 
-Maze_Main.o: Maze_Main.cpp
-	$(CXX) $(CXXFLAGS) -c Maze_Main.cpp
+# Object Files
+_OBJ = Maze_Main.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o
+OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
 
-Character.o: Character.hpp Character.cpp
-	$(CXX) $(CXXFLAGS) -c Character.cpp
 
-Space.o: Space.cpp Space.hpp
-	$(CXX) $(CXXFLAGS) -c Space.cpp
+###############################################################################
 
-Start.o: Start.cpp Start.hpp
-	$(CXX) $(CXXFLAGS) -c Start.cpp
+all: $(OBJ)
+	$(CXX) $(CXXFLAGS) $(WASM_FLAGS) $(OBJ) $(HTML_TEMPLATE) -o $(HTML_TARGET)
 
-Empty.o: Empty.cpp Empty.hpp
-	$(CXX) $(CXXFLAGS) -c Empty.cpp
-
-Dinosaur.o: Dinosaur.cpp Dinosaur.hpp
-	$(CXX) $(CXXFLAGS) -c Dinosaur.cpp
-	
-Key.o: Key.cpp Key.hpp
-	$(CXX) $(CXXFLAGS) -c Key.cpp
-
-Cheese.o: Cheese.cpp Cheese.hpp
-	$(CXX) $(CXXFLAGS) -c Cheese.cpp
-
-Door.o: Door.cpp Door.hpp
-	$(CXX) $(CXXFLAGS) -c Door.cpp
-
-Finish.o: Finish.cpp Finish.hpp
-	$(CXX) $(CXXFLAGS) -c Finish.cpp
+$(ODIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
+	$(CXX) $(CXXFLAGS) -c -o $@ $< $(DIRS)
 
 clean:
-	rm *.o $(TARGETS)
+	rm $(ODIR)/*.o $(TARGETS)
