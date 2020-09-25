@@ -18,7 +18,7 @@ SRCDIR = src
 IDIR = include
 ODIR = src/obj
 HTML_TARGET = build/index.html
-TARGETS = $(HTML_TARGET) build/wasm_maze.js build/wasm_maze.wasm
+TARGETS = $(HTML_TARGET) build/index.js build/index.wasm
 
 # Header Files
 _DEPS = Character.hpp Space.hpp Start.hpp Empty.hpp Dinosaur.hpp Key.hpp Cheese.hpp Door.hpp Finish.hpp
