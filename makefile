@@ -1,38 +1,53 @@
-CC=emcc
-LVL="-O3"
+###############################################################################
+#  Author:       Adam Wright
+#  Description:  Makefile for maze game which is compiled from c++ to
+#				 Web Assembly using emscripten
+###############################################################################
 
-maze: mazeMain.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o
-	$(CC) -std=c++11 mazeMain.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o -s WASM=1 --shell-file html_template/wasm_game_template.html $(LVL) -o ./build/wasm_maze.html
+CXX = emcc
+CXXFLAGS = -std=c++11 -O3
+WASM_FLAGS = -s WASM=1
+HTML_TEMPLATE = --shell-file html_template/wasm_game_template.html
 
-mazeMain.o: mazeMain.cpp
-	$(CC) -std=c++11 -c mazeMain.cpp
+HTML_TARGET = ./build/wasm_maze.html
+TARGETS = $(HTML_TARGET) ./build/wasm_maze.js ./build/wasm_maze.wasm
+SRC = src
+INCLUDE = include
+O_DIR = lib
+
+maze: Maze_Main.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o
+	$(CXX) $(CXXFLAGS) $(WASM_FLAGS) Maze_Main.o Space.o Empty.o Character.o Start.o Dinosaur.o \
+	Key.o Cheese.o Door.o Finish.o $(HTML_TEMPLATE) -o $(HTML_TARGET)
+
+Maze_Main.o: Maze_Main.cpp
+	$(CXX) $(CXXFLAGS) -c Maze_Main.cpp
 
 Character.o: Character.hpp Character.cpp
-	$(CC) -std=c++11 -c Character.cpp
+	$(CXX) $(CXXFLAGS) -c Character.cpp
 
 Space.o: Space.cpp Space.hpp
-	$(CC) -std=c++11 -c Space.cpp
+	$(CXX) $(CXXFLAGS) -c Space.cpp
 
 Start.o: Start.cpp Start.hpp
-	$(CC) -std=c++11 -c Start.cpp
+	$(CXX) $(CXXFLAGS) -c Start.cpp
 
 Empty.o: Empty.cpp Empty.hpp
-	$(CC) -std=c++11 -c Empty.cpp
+	$(CXX) $(CXXFLAGS) -c Empty.cpp
 
 Dinosaur.o: Dinosaur.cpp Dinosaur.hpp
-	$(CC) -std=c++11 -c Dinosaur.cpp
+	$(CXX) $(CXXFLAGS) -c Dinosaur.cpp
 	
 Key.o: Key.cpp Key.hpp
-	$(CC) -std=c++11 -c Key.cpp
+	$(CXX) $(CXXFLAGS) -c Key.cpp
 
 Cheese.o: Cheese.cpp Cheese.hpp
-	$(CC) -std=c++11 -c Cheese.cpp
+	$(CXX) $(CXXFLAGS) -c Cheese.cpp
 
 Door.o: Door.cpp Door.hpp
-	$(CC) -std=c++11 -c Door.cpp
+	$(CXX) $(CXXFLAGS) -c Door.cpp
 
 Finish.o: Finish.cpp Finish.hpp
-	$(CC) -std=c++11 -c Finish.cpp
+	$(CXX) $(CXXFLAGS) -c Finish.cpp
 
 clean:
-	rm *.o wasm_maze.html wasm_maze.js wasm_maze.wasm
+	rm *.o $(TARGETS)
