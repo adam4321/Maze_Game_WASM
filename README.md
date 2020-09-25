@@ -6,29 +6,24 @@ The game is a single player command line game where the player navigates a maze.
 
 ## Intro Menu
 
-![Intro Menu](https://i.imgur.com/9XEi0Kh.png)
+![Intro Menu](https://i.imgur.com/n1Lcb41.png)
 
 ## Starting Room
 
-![start](https://i.imgur.com/q0DYyO8.png)
+![start](https://i.imgur.com/VxlURr5.png)
 
 ## Player screen for each round
 
-![map](https://i.imgur.com/KVdJLJk.png)
+![map](https://i.imgur.com/tHIm8rQ.png)
 
 ## Dinosaur Room
 
-![dinosaur](https://i.imgur.com/AMOVxMD.png)
+![dinosaur](https://i.imgur.com/XUd0Dri.png)
 
 ## Player loss screen
 
-![death](https://i.imgur.com/IzNEy0b.png)
+![death](https://i.imgur.com/OGX3VEK.png)
 
 ## The door to the final room
 
-
-![final-door](https://i.imgur.com/aBR1rJD.png)
-
-## The exit screen shown for a winning exit
-
-![exit](https://i.imgur.com/nzFgqkx.png)
+![final-door](https://i.imgur.com/H7kNL5K.png)
