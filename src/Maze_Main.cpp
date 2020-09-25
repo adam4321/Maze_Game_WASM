@@ -612,7 +612,7 @@ void room_loop(void)
 }
 
 
-// 
+// RENDER ESCAPE OR NON-DINO DEATH GRAPHIC ------------------------------------
 
 void game_end(void)
 {
