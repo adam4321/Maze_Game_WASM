@@ -5,15 +5,16 @@
 ###############################################################################
 
 CXX = emcc
-CXXFLAGS = -std=c++11 -O3
+OPTIMIZATION = -O3
+CXXFLAGS = $(OPTIMIZATION) -std=c++11 -Wall -Wextra
 WASM_FLAGS = -s WASM=1
 HTML_TEMPLATE = --shell-file html_template/wasm_game_template.html
 
 HTML_TARGET = ./build/wasm_maze.html
-TARGETS = $(HTML_TARGET) ./build/wasm_maze.js ./build/wasm_maze.wasm
+TARGETS = $(HTML_TARGET) build/wasm_maze.js build/wasm_maze.wasm
 SRC = src
 INCLUDE = include
-O_DIR = lib
+O_DIR = src/obj
 
 maze: Maze_Main.o Space.o Empty.o Character.o Start.o Dinosaur.o Key.o Cheese.o Door.o Finish.o
 	$(CXX) $(CXXFLAGS) $(WASM_FLAGS) Maze_Main.o Space.o Empty.o Character.o Start.o Dinosaur.o \
